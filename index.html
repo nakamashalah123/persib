@@ -1732,30 +1732,31 @@
             🔊
         </button>
         <iframe
-            id="youtubePlayer"
+            id="soundcloudPlayer"
             width="1"
             height="1"
-            src="https://www.youtube.com/embed/tFPcKu6PLY0?autoplay=1&mute=1&loop=1&playlist=tFPcKu6PLY0&controls=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
+            scrolling="no"
+            frameborder="no"
+            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/user-584167493/g Ryder x Cool mix volume&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false&show_artwork=false&download=false&color=%230057FF"
+            allow="autoplay"
         ></iframe>
     </div>
 
     <script>
-        // YouTube Player API
+        // SoundCloud Player
         let isPlaying = true;
         const audioToggle = document.getElementById('audioToggle');
-        const youtubePlayer = document.getElementById('youtubePlayer');
+        const soundcloudPlayer = document.getElementById('soundcloudPlayer');
         const audioBars = document.querySelectorAll('.audio-bar');
 
         audioToggle.addEventListener('click', () => {
             isPlaying = !isPlaying;
             if (isPlaying) {
-                youtubePlayer.src = "https://www.youtube.com/embed/tFPcKu6PLY0?autoplay=1&mute=1&loop=1&playlist=tFPcKu6PLY0&controls=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1";
+                soundcloudPlayer.src = "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/user-584167493/g Ryder x Cool mix volume&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false&show_artwork=false&download=false&color=%230057FF";
                 audioToggle.textContent = '🔊';
                 audioBars.forEach(bar => bar.style.animationPlayState = 'running');
             } else {
-                youtubePlayer.src = "";
+                soundcloudPlayer.src = "";
                 audioToggle.textContent = '🔇';
                 audioBars.forEach(bar => bar.style.animationPlayState = 'paused');
             }
