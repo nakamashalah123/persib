@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klarifikasi Bobotoh Persib — Cyberpunk Landing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           DESIGN TOKENS & VARIABLES
+           ======================================== */
+        :root {
+            /* Colors */
+            --primary: #0057FF;
+            --secondary: #00A3FF;
+            --accent: #3DDCFF;
+            --background: #050816;
+            --surface: #0A1026;
+            --text: #F5F7FA;
+            --text-secondary: #9CA3AF;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #0057FF 0%, #00A3FF 100%);
+            --gradient-bg: linear-gradient(180deg, #050816 0%, #0A1026 100%);
+            --gradient-glow: linear-gradient(135deg, rgba(0, 87, 255, 0.4) 0%, rgba(0, 163, 255, 0.4) 100%);
+            
+            /* Shadows */
+            --shadow-neon: 0 0 20px rgba(0, 163, 255, 0.4);
+            --shadow-glow: 0 0 10px rgba(0, 163, 255, 0.5), 0 0 20px rgba(0, 87, 255, 0.3);
+            --shadow-card: 0 0 20px rgba(0, 163, 255, 0.15);
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            
+            /* Typography */
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* ========================================
+           RESET & BASE
+           ======================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           BACKGROUND EFFECTS
+           ======================================== */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 87, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 87, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-glow-1 {
+            top: -200px;
+            left: -200px;
+            background: var(--primary);
+        }
+
+        .bg-glow-2 {
+            bottom: -200px;
+            right: -200px;
+            background: var(--secondary);
+        }
+
+        /* ========================================
+           TYPOGRAPHY
+           ======================================== */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .text-glow {
+            text-shadow: 
+                0 0 5px var(--secondary),
+                0 0 10px var(--secondary),
+                0 0 20px var(--primary);
+        }
+
+        /* ========================================
+           LAYOUT
+           ======================================== */
+        .container {
+            width: 90%;
+            max-width: 1440px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        /* ========================================
+           GLASSMORPHISM
+           ======================================== */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(10, 16, 38, 0.7);
+            border: 1px solid rgba(0, 163, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-neon);
+            border-color: rgba(0, 163, 255, 0.6);
+        }
+
+        /* ========================================
+           NAVBAR
+           ======================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(5, 8, 22, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 163, 255, 0.2);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            box-shadow: 0 0 10px var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0, 87, 255, 0.2);
+            border: 1px solid rgba(0, 163, 255, 0.3);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 30px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero-title {
+            font-size: clamp(36px, 6vw, 72px);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+
+        .hero-title span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           BUTTONS
+           ======================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 0 12px rgba(0, 163, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 24px rgba(0, 163, 255, 0.8);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(0, 163, 255, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 87, 255, 0.2);
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(0, 163, 255, 0.3);
+        }
+
+        /* ========================================
+           FLOATING ELEMENTS
+           ======================================== */
+        .floating-card {
+            position: absolute;
+            animation: floating 6s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .floating-card-1 {
+            right: 5%;
+            top: 20%;
+            animation-delay: 0s;
+        }
+
+        .floating-card-2 {
+            right: 10%;
+            bottom: 25%;
+            animation-delay: 2s;
+        }
+
+        .floating-card-3 {
+            right: 0%;
+            top: 50%;
+            animation-delay: 4s;
+        }
+
+        /* ========================================
+           SECTION HEADERS
+           ======================================== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .section-label::before,
+        .section-label::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--secondary));
+        }
+
+        .section-label::before {
+            right: calc(100% + 15px);
+        }
+
+        .section-label::after {
+            left: calc(100% + 15px);
+            background: linear-gradient(90deg, var(--secondary), transparent);
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 48px);
+            margin-bottom: 16px;
+        }
+
+        .section-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ========================================
+           KLARIFIKASI SECTION
+           ======================================== */
+        .klarifikasi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .klarifikasi-card {
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .klarifikasi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            box-shadow: 0 0 20px var(--secondary);
+        }
+
+        .card-number {
+            font-family: var(--font-heading);
+            font-size: 48px;
+            font-weight: 800;
+            color: rgba(0, 87, 255, 0.2);
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           POIN UTAMA SECTION
+           ======================================== */
+        .poin-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 87, 255, 0.05) 50%, transparent 100%);
+        }
+
+        .poin-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .poin-content h3 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+
+        .poin-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .poin-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: rgba(10, 16, 38, 0.5);
+            border: 1px solid rgba(0, 163, 255, 0.2);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .poin-item:hover {
+            border-color: var(--secondary);
+            background: rgba(0, 87, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .poin-icon {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 0 15px rgba(0, 163, 255, 0.3);
+        }
+
+        .poin-text h4 {
+            font-size: 14px;
+            font-family: var(--font-heading);
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+
+        .poin-text p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .poin-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cyber-frame {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .frame-border {
+            position: absolute;
+            border: 2px solid rgba(0, 163, 255, 0.3);
+            border-radius: var(--radius-lg);
+        }
+
+        .frame-border-1 {
+            inset: 0;
+            animation: borderPulse 3s ease-in-out infinite;
+        }
+
+        .frame-border-2 {
+            inset: 15px;
+            animation: borderPulse 3s ease-in-out infinite 0.5s;
+        }
+
+        .frame-border-3 {
+            inset: 30px;
+            animation: borderPulse 3s ease-in-out infinite 1s;
+        }
+
+        @keyframes borderPulse {
+            0%, 100% { border-color: rgba(0, 163, 255, 0.3); }
+            50% { border-color: rgba(0, 163, 255, 0.8); }
+        }
+
+        .frame-center {
+            position: absolute;
+            inset: 45px;
+            background: rgba(0, 87, 255, 0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .frame-icon {
+            font-size: 64px;
+            animation: floatIcon 4s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        .frame-text {
+            font-family: var(--font-heading);
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: var(--accent);
+        }
+
+        /* ========================================
+           STATS SECTION
+           ======================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        /* ========================================
+           SYARAT SECTION
+           ======================================== */
+        .syarat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .syarat-card {
+            padding: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .syarat-number {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .syarat-content h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .syarat-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           CTA SECTION
+           ======================================== */
+        .cta-section {
+            padding: 80px 0;
+        }
+
+        .cta-box {
+            padding: 60px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-primary);
+            opacity: 0.1;
+        }
+
+        .cta-box::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 163, 255, 0.2) 0%, transparent 50%);
+            animation: rotateGlow 10s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: clamp(24px, 4vw, 40px);
+            margin-bottom: 16px;
+        }
+
+        .cta-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        .footer {
+            padding: 40px 0;
+            border-top: 1px solid rgba(0, 163, 255, 0.2);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 1024px) {
+            .poin-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .poin-visual {
+                height: 300px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(5, 8, 22, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                border-bottom: 1px solid rgba(0, 163, 255, 0.2);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .hero {
+                padding-top: 120px;
+            }
+
+            .floating-card {
+                display: none;
+            }
+
+            .klarifikasi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .cta-box {
+                padding: 40px 20px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 60px 0;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat-card {
+                padding: 25px 15px;
+            }
+        }
+
+        /* ========================================
+           SCAN LINE EFFECT
+           ======================================== */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+            opacity: 0.3;
+            z-index: 9999;
+            pointer-events: none;
+            animation: scanLine 8s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="scan-line"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon">P</div>
+                <span class="logo-text">BOBOBOH</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active">Beranda</a></li>
+                <li><a href="#klarifikasi">Klarifikasi</a></li>
+                <li><a href="#poin">Poin Utama</a></li>
+                <li><a href="#syarat">Syarat</a></li>
+                <li><a href="#stats">Statistik</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    System Online
+                </div>
+                <h1 class="hero-title">
+                    <span>Klarifikasi</span><br>
+                    Bobotoh Persib
+                </h1>
+                <p class="hero-description">
+                    Platform verifikasi dan klarifikasi resmi untuk Bobotoh Persib Bandung. 
+                   astikan identitas Anda terverifikasi sebagai bagian dari komunitas suporter 
+                    hijau-biru terbesar di Indonesia.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#klarifikasi" class="btn btn-primary">
+                        Mulai Verifikasi
+                    </a>
+                    <a href="#poin" class="btn btn-secondary">
+                        Pelajari Lebih
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Cards -->
+        <div class="floating-card floating-card-1 glass-card" style="padding: 20px; width: 180px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">🛡️</div>
+            <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 1px;">VERIFIED</div>
+            <div style="font-size: 11px; color: var(--text-secondary);">Status Aman</div>
+        </div>
+        <div class="floating-card floating-card-2 glass-card" style="padding: 20px; width: 160px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">⚡</div>
+            <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 1px;">FAST PROCEED</div>
+            <div style="font-size: 11px; color: var(--text-secondary);">Proses Instan</div>
+        </div>
+        <div class="floating-card floating-card-3 glass-card" style="padding: 20px; width: 170px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">🔐</div>
+            <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 1px;">SECURE DATA</div>
+            <div style="font-size: 11px; color: var(--text-secondary);">Enkripsi Tinggi</div>
+        </div>
+    </section>
+
+    <!-- Klarifikasi Section -->
+    <section id="klarifikasi">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Informasi</span>
+                <h2 class="section-title text-glow">Apa Itu Klarifikasi Bobotoh?</h2>
+                <p class="section-description">
+                    Klarifikasi adalah proses verifikasi untuk memastikan keaslian dan keabsahan 
+                    identitas sebagai Bobotoh Persib Bandung yang terverified.
+                </p>
+            </div>
+
+            <div class="klarifikasi-grid">
+                <div class="klarifikasi-card glass-card">
+                    <span class="card-number">01</span>
+                    <div class="card-icon">🎯</div>
+                    <h3 class="card-title">Tujuan Verifikasi</h3>
+                    <p class="card-text">
+                        Memastikan setiap Bobotoh memiliki identitas resmi yang dapat dipertanggungjawabkan 
+                        dalam mendukung Persib Bandung di berbagai kegiatan resmi maupun non-resmi.
+                    </p>
+                </div>
+
+                <div class="klarifikasi-card glass-card">
+                    <span class="card-number">02</span>
+                    <div class="card-icon">📋</div>
+                    <h3 class="card-title">Prosedur Standar</h3>
+                    <p class="card-text">
+                        Mengikuti prosedur verifikasi yang telah ditetapkan oleh PERSIB Bandung 
+                        untuk menjaga integritas dan kredibilitas komunitas Bobotoh.
+                    </p>
+                </div>
+
+                <div class="klarifikasi-card glass-card">
+                    <span class="card-number">03</span>
+                    <div class="card-icon">✅</div>
+                    <h3 class="card-title">Keuntungan Terverifikasi</h3>
+                    <p class="card-text">
+                        Mendapatkan akses ke berbagai benefit eksklusif seperti preferential seating, 
+                        merchandise terbatas, dan undangan event khusus Bobotoh.
+                    </p>
+                </div>
+
+                <div class="klarifikasi-card glass-card">
+                    <span class="card-number">04</span>
+                    <div class="card-icon">🔒</div>
+                    <h3 class="card-title">Keamanan Data</h3>
+                    <p class="card-text">
+                        Seluruh data pribadi Bobotoh dilindungi dengan sistem enkripsi tingkat tinggi 
+                        dan dikelola sesuai dengan kebijakan privasi yang berlaku.
+                    </p>
+                </div>
+
+                <div class="klarifikasi-card glass-card">
+                    <span class="card-number">05</span>
+                    <div class="card-icon">🌐</div>
+                    <h3 class="card-title">Komunitas Digital</h3>
+                    <p class="card-text">
+                        Terintegrasi dengan ekosistem digital Bobotoh untuk memudahkan komunikasi, 
+                        koordinasi, dan koordinasi aksi pendukung di era modern.
+                    </p>
+                </div>
+
+                <div class="klarifikasi-card glass-card">
+                    <span class="card-number">06</span>
+                    <div class="card-icon">📈</div>
+                    <h3 class="card-title">Tracking Status</h3>
+                    <p class="card-text">
+                        Memantau status verifikasi secara real-time dengan sistem yang transparan 
+                        dan mudah diakses kapan saja melalui platform digital.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Poin Utama Section -->
+    <section class="poin-section" id="poin">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Poin Utama</span>
+                <h2 class="section-title text-glow">Poin-Poin Klarifikasi</h2>
+                <p class="section-description">
+                    Poin-poin penting yang perlu dipahami oleh setiap Bobotoh 
+                    dalam proses klarifikasi dan verifikasi identitas.
+                </p>
+            </div>
+
+            <div class="poin-container">
+                <div class="poin-content">
+                    <h3>📌 Poin Penting</h3>
+                    <ul class="poin-list">
+                        <li class="poin-item">
+                            <div class="poin-icon">1</div>
+                            <div class="poin-text">
+                                <h4>Identitas Resmi</h4>
+                                <p>Melakukan verifikasi dengan data identitas resmi (KTP/SIM) yang masih berlaku dan sesuai dengan data registrasi.</p>
+                            </div>
+                        </li>
+                        <li class="poin-item">
+                            <div class="poin-icon">2</div>
+                            <div class="poin-text">
+                                <h4>Kriteria Kelayakan</h4>
+                                <p>Memastikan memenuhi seluruh kriteria kelayakan sebagai Bobotoh terverifikasi sesuai ketentuan PERSIB.</p>
+                            </div>
+                        </li>
+                        <li class="poin-item">
+                            <div class="poin-icon">3</div>
+                            <div class="poin-text">
+                                <h4>Persetujuan Terms</h4>
+                                <p>Menyetujui seluruh syarat dan ketentuan yang berlaku dalam komunitas Bobotoh Persib Bandung.</p>
+                            </div>
+                        </li>
+                        <li class="poin-item">
+                            <div class="poin-icon">4</div>
+                            <div class="poin-text">
+                                <h4>Aktivasi Akun</h4>
+                                <p>Melakukan aktivasi akun setelah proses verifikasi berhasil untuk mendapatkan akses penuh.</p>
+                            </div>
+                        </li>
+                        <li class="poin-item">
+                            <div class="poin-icon">5</div>
+                            <div class="poin-text">
+                                <h4>Update Berkala</h4>
+                                <p>Melakukan pembaruan data secara berkala untuk memastikan informasi tetap valid dan akurat.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="poin-visual">
+                    <div class="cyber-frame">
+                        <div class="frame-border frame-border-1"></div>
+                        <div class="frame-border frame-border-2"></div>
+                        <div class="frame-border frame-border-3"></div>
+                        <div class="frame-center">
+                            <div class="frame-icon">🏟️</div>
+                            <div class="frame-text">PERSIB BANDUNG</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card glass-card">
+                    <div class="stat-number">2.5M+</div>
+                    <div class="stat-label">Total Bobotoh</div>
+                </div>
+                <div class="stat-card glass-card">
+                    <div class="stat-number">850K+</div>
+                    <div class="stat-label">Terverifikasi</div>
+                </div>
+                <div class="stat-card glass-card">
+                    <div class="stat-number">34</div>
+                    <div class="stat-label">Kabupaten/Kota</div>
+                </div>
+                <div class="stat-card glass-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Uptime System</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Syarat Section -->
+    <section id="syarat">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Persyaratan</span>
+                <h2 class="section-title text-glow">Syarat Klarifikasi</h2>
+                <p class="section-description">
+                    Persyaratan yang harus dipenuhi untuk melakukan proses klarifikasi 
+                    sebagai Bobotoh Persib Bandung terverifikasi.
+                </p>
+            </div>
+
+            <div class="syarat-grid">
+                <div class="syarat-card glass-card">
+                    <div class="syarat-number">1</div>
+                    <div class="syarat-content">
+                        <h4>Kartu Identitas Resmi</h4>
+                        <p>Siapkan KTP atau SIM asli yang masih berlaku dengan foto yang jelas dan legible.</p>
+                    </div>
+                </div>
+
+                <div class="syarat-card glass-card">
+                    <div class="syarat-number">2</div>
+                    <div class="syarat-content">
+                        <h4>Foto Diri</h4>
+                        <p>Pas foto terbaru dengan latar belakang polos, woreearsakan atribut Persib.</p>
+                    </div>
+                </div>
+
+                <div class="syarat-card glass-card">
+                    <div class="syarat-number">3</div>
+                    <div class="syarat-content">
+                        <h4>Data Diri Valid</h4>
+                        <p>Nama lengkap, tanggal lahir, alamat, dan informasi kontak yang dapat diverifikasi.</p>
+                    </div>
+                </div>
+
+                <div class="syarat-card glass-card">
+                    <div class="syarat-number">4</div>
+                    <div class="syarat-content">
+                        <h4>Persetujuan Kebijakan</h4>
+                        <p>Menyetujui dan menandatangani kode etik Bobotoh Persib Bandung.</p>
+                    </div>
+                </div>
+
+                <div class="syarat-card glass-card">
+                    <div class="syarat-number">5</div>
+                    <div class="syarat-content">
+                        <h4>Akses Perangkat</h4>
+                        <p>Memiliki perangkat dengan koneksi internet stabil untuk proses verifikasi.</p>
+                    </div>
+                </div>
+
+                <div class="syarat-card glass-card">
+                    <div class="syarat-number">6</div>
+                    <div class="syarat-content">
+                        <h4>Komitmen Komunitas</h4>
+                        <p>Bersedia ikut serta dalam aktivitas dan événement komunitas Bobotoh.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box glass-card">
+                <div class="cta-content">
+                    <h2 class="cta-title text-glow">Siap Menjadi Bobotoh Terverifikasi?</h2>
+                    <p class="cta-text">
+                        Bergabunglah dengan jutaan Bobotoh lainnya dalam mendukung 
+                        Persib Bandung. Verifikasi identitas Anda sekarang juga.
+                    </p>
+                    <a href="#klarifikasi" class="btn btn-primary">
+                        Mulai Sekarang
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="logo-icon" style="width: 36px; height: 36px; font-size: 16px;">P</div>
+                    <div>
+                        <div class="footer-logo">BOBOBOH</div>
+                        <div class="footer-text">Platform Klarifikasi Bobotoh Persib Bandung</div>
+                    </div>
+                </div>
+                <ul class="footer-links">
+                    <li><a href="#">Kebijakan Privasi</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
+                    <li><a href="#">Hubungi Kami</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile navigation toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Active navigation link on scroll
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+
+    <!-- YouTube Background Audio -->
+    <style>
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: rgba(10, 16, 38, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 163, 255, 0.4);
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(0, 163, 255, 0.3);
+        }
+
+        .audio-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .audio-bar {
+            width: 3px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 2px;
+            animation: audioWave 0.5s ease-in-out infinite alternate;
+        }
+
+        .audio-bar:nth-child(1) { animation-delay: 0s; }
+        .audio-bar:nth-child(2) { animation-delay: 0.1s; }
+        .audio-bar:nth-child(3) { animation-delay: 0.2s; }
+        .audio-bar:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes audioWave {
+            0% { height: 6px; }
+            100% { height: 16px; }
+        }
+
+        .audio-label {
+            font-family: var(--font-heading);
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .audio-toggle {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 163, 255, 0.4);
+        }
+
+        .audio-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 163, 255, 0.6);
+        }
+
+        .audio-player iframe {
+            display: none;
+        }
+    </style>
+
+    <div class="audio-player" id="audioPlayer">
+        <div class="audio-indicator">
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+        </div>
+        <span class="audio-label">Hymne Persib</span>
+        <button class="audio-toggle" id="audioToggle" title="Toggle Audio">
+            🔊
+        </button>
+        <iframe
+            id="youtubePlayer"
+            width="1"
+            height="1"
+            src="https://www.youtube.com/embed/tFPcKu6PLY0?autoplay=1&loop=1&playlist=tFPcKu6PLY0&controls=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+        ></iframe>
+    </div>
+
+    <script>
+        // YouTube Player API
+        let isPlaying = true;
+        const audioToggle = document.getElementById('audioToggle');
+        const youtubePlayer = document.getElementById('youtubePlayer');
+        const audioBars = document.querySelectorAll('.audio-bar');
+
+        audioToggle.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                youtubePlayer.src = "https://www.youtube.com/embed/tFPcKu6PLY0?autoplay=1&loop=1&playlist=tFPcKu6PLY0&controls=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1";
+                audioToggle.textContent = '🔊';
+                audioBars.forEach(bar => bar.style.animationPlayState = 'running');
+            } else {
+                youtubePlayer.src = "";
+                audioToggle.textContent = '🔇';
+                audioBars.forEach(bar => bar.style.animationPlayState = 'paused');
+            }
+        });
+    </script>
+</body>
+</html>
